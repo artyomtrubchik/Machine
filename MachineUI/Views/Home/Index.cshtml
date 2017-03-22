@@ -1,0 +1,183 @@
+﻿@using Machine.Domain.Entities;
+@using MachineUI.Models
+@model HomeViewModel
+@{
+    ViewBag.Title = "Machine";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jsrender.min.js"></script>
+
+
+
+<script id="coinTemp" type="text/x-jsrender">
+    <button class="coin" islocked="{{:isLocked}}" value="{{:value}}">
+        <h4>{{:value}}₽</h4>
+    </button> 
+</script>
+
+<script id="drinkTemp" type="text/x-jsrender">
+    <li>
+        {{if quantity > 0 && price <= @Model.Balance}}
+        <button type="button" class="drink available" value="{{:id}}">
+            <div style="width: 100%; height: 60%; background-color: white"></div>
+            <h4>{{:name}} <br />{{:price}}₽ </h4>          
+        </button>
+        {{else}}
+        <button type="button" class="drink notavailable" value="{{:id}}">
+            <div style="width: 100%; height: 60%; background-color: white"></div>
+            <h4>{{:name}} <br />{{:price}}₽</h4>
+        </button>
+        {{/if}}
+    </li>
+
+</script>
+
+
+
+
+<div class="maincontainer">
+    @using (Html.BeginForm("ChangeSource", "Home"))
+    {
+        <button type="submit" name="source" value="xml">Использовать xml файл</button>
+        <br />
+        <br />
+        <button type="submit" name="source" value="sql">Использовать базу данных sql</button>
+        <br />
+        <br />
+    }
+    <div class="row">
+        <div class="col-md-4 coincontainer">
+            <label>Номиналы для пополнения</label>
+            <br />
+            <div id="coins"> </div>
+        </div>
+        <div class="col-md-8">
+            @using (Html.BeginForm("Index", "Home"))
+            {
+                @Html.ValidationSummary()
+                <button type="submit" id="add"><h4>Пополнить</h4></button>
+                <div class="balance">
+                    <label>Сумма на балансе</label>
+                    <br />
+                    <input id="balance" name="Balance" value="" />
+                </div>
+            }
+            @using (Html.BeginForm("Index", "Home"))
+            {
+                <button type="submit" name="getChange" value="True" id="change"><h4>Сдача</h4></button>
+            }            
+            
+        </div>
+    </div>
+    <div class="row" style="margin-top: 30px;">
+        @using (Html.BeginForm("Cart", "Home"))
+        {
+            <div class="col-md-10" style="overflow: auto;">
+                <ul class="" id="drinks"></ul>
+            </div>
+            <div class="col-md-2">
+                <input type="hidden" id="drinkid" name="Id" value=""/>
+                <input type="hidden" id="quantity" name="Quantity" value="" />
+                <button  id="buy" disabled><h4>Купить</h4></button>
+            </div>
+        }
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    var coins = [];
+    var drinks = [];
+    @foreach (var coin in Model.Coins)
+    {
+        @:coins.push({ id: "@coin.Id", value: "@coin.Value", isLocked: "@coin.IsLocked" });
+    }
+    var template = $.templates("#coinTemp");
+    var htmlOutput = template.render(coins);
+    $("#coins").html(htmlOutput);
+
+    @foreach(var drink in Model.Drinks)
+     {
+        @:drinks.push({ id: "@drink.Id", name: "@drink.Name", price: "@drink.Price", quantity: "@drink.Quantity" });
+     }
+    var template = $.templates("#drinkTemp");
+    var htmlOutput = template.render(drinks);
+    $("#drinks").html(htmlOutput);
+
+
+    $(document).ready(function () {
+
+        $(".coin").each(function () {
+            if ($(this).attr("islocked") == "True") {
+                $(this).addClass("coinlocked");
+            }
+            else {
+                $(this).addClass("coinunlocked");
+            }
+        })
+
+        $("#balance").prop("value", "@Model.Balance");
+        if (@Model.Balance == 0){
+            $("#balance").addClass("zerobalance")
+        }
+        else{
+            $("#balance").addClass("positivebalance")
+        }
+       
+
+        $(".coin").click(function () {
+            if ($(this).attr("islocked") == "True") {
+                $("#add").prop("disabled", true)
+            }
+            else {
+                $("#add").prop("disabled", false);
+                $("#balance").prop("value", $(this).attr("value"));
+            }
+        })
+
+        $(".coin").click(function () {
+            if ($(this).attr("islocked") == "True") {
+                $("#add").prop("disabled", true)
+
+            }
+            else {
+                $("#add").prop("disabled", false)
+            }
+        })
+
+        $("#change").click(function () {
+            var msg = "Ваша сдача: " + "@Model.Balance₽";
+            alert(msg);
+
+        })
+
+       
+
+        $(".drink").click(function () {
+            if ($(this).hasClass("available")) {
+                $("#buy").prop("disabled", false);
+                $("#drinkid").prop("value", $(this).attr("value"));
+                $("#quantity").prop("value", 1);
+            }
+            else {
+                $("#buy").prop("disabled", true)
+            }
+           
+        })
+
+
+    });
+</script>
+
+
+
+

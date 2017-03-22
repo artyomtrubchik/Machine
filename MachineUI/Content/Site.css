@@ -1,0 +1,122 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+
+
+ul{
+    white-space: nowrap;
+}
+
+li{
+    display: inline-block;
+   
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+button{
+    padding: 0;
+}
+
+.maincontainer{
+    width:800px;
+    padding-left: 80px;
+}
+
+
+.coin{
+    display:inline-block; 
+    width:50px; 
+    height:50px;
+    margin: 5px;
+    border: 0;
+}
+
+.drink{
+    width:120px; 
+    height:150px;
+}
+
+.available{
+    background-color:limegreen;
+}
+
+.notavailable{
+    background-color:red;
+}
+
+.coincontainer{
+    display:inline-block; 
+    
+}
+
+.coinunlocked{
+    background-color: limegreen; 
+}
+
+.coinlocked{
+    background-color: red;
+    border-radius: 50px;
+}
+
+.zerobalance{
+    background-color: red;
+}
+
+.positivebalance{
+    background-color: lightgreen;
+}
+
+#add{
+    margin-top: 25px;
+    display: inline-block;
+    height:120px;
+    width: 120px;
+    
+}
+
+.balance{
+    float: right;
+    width: 250px;
+    
+}
+
+#balance{    
+    width: 250px;
+}
+
+
+#change{
+    float: right;
+    margin-top: -80px;
+    width: 100px;
+    height: 50px;
+}
+
+#drinks{
+    margin-left: -30px;
+    height: 150px;
+    
+}
+
+#buy{
+    float: right;
+    width: 100px;
+    height: 50px;
+}

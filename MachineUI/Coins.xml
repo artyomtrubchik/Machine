@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<coins>
+  <coin>
+    <id>1</id>
+    <value>1</value>
+    <islocked>true</islocked>  
+  </coin>
+  <coin>
+    <id>2</id>
+    <value>2</value>
+    <islocked>false</islocked>  
+  </coin>
+  <coin>
+    <id>3</id>
+    <value>3</value>
+    <islocked>true</islocked>
+  </coin>
+  <coin>
+    <id>4</id>
+    <value>5</value>
+    <islocked>false</islocked>
+  </coin>
+  <coin>
+    <id>5</id>
+    <value>10</value>
+    <islocked>false</islocked>
+  </coin>
+  <coin>
+    <id>6</id>
+    <value>15</value>
+    <islocked>true</islocked>
+  </coin>
+</coins>
